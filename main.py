@@ -2,6 +2,25 @@ BACKGROUND_COLOR = "#B1DDC6"
 FONT_NAME= "Arial"
 SOURCE_LANG = "French"
 from tkinter import *
+import pandas as pd
+import random
+
+#-------------CREATE NEW FLASH CARD--------
+
+data =pd.read_csv("data/french_words.csv")
+new_dict=data.to_dict(orient="records")
+print(new_dict)
+
+
+def generate_word():
+
+    """ This function allows to pick a random word from the dictionary created fin the csv file """
+    word= random.choice(list(new_dict))
+    print(word)
+    french_word=word["French"]
+    english_word=word["English"]
+    canvas.itemconfig(source_word, text=french_word)
+
 
 
 #---------------CREATE USER INTERFACE-------------------
@@ -19,15 +38,15 @@ canvas.grid(column=0, row=0, columnspan=2)
 
 
 right_img = PhotoImage(file="images/right.png")
-button_right = Button(image = right_img, highlightthickness=0)
+button_right = Button(image = right_img, highlightthickness=0, command=generate_word)
 button_right.grid(column=1, row=1)
 
 wrong_img = PhotoImage(file="images/wrong.png")
-button_wrong = Button(image = wrong_img, highlightthickness=0)
+button_wrong = Button(image = wrong_img, highlightthickness=0, command=generate_word)
 button_wrong.grid(column=0, row=1)
 
 
-
+generate_word()
 
 
 window.mainloop()
